@@ -10,12 +10,32 @@ namespace united_movers_api.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
+       
         private readonly IEmployeeService _employeeService;
 
         public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
         }
+
+
+        [HttpGet("validate")]
+        public async Task<LoginResponse> ValidateEmployeeLogin([FromBody] LoginRequest loginRequest )
+        {
+            var loginResponse = await _employeeService.ValidateEmployeeLogin(loginRequest);
+             
+            return loginResponse;
+        }
+
+        [HttpGet("logout/employeeID")]
+        public async Task<IActionResult> Logout(int employeeID)
+        {
+            throw new NotImplementedException();
+            //var response = await _employeeService.Logout();
+            return Ok();
+        }
+
+
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -39,6 +59,9 @@ namespace united_movers_api.Controllers
             }
             return Ok(employee);
         }
+
+
+
 
         // POST: api/Employee
         [HttpPost]

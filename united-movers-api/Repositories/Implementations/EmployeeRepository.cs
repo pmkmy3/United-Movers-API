@@ -14,6 +14,16 @@ namespace united_movers_api.Repositories.Implementations
             this._dbConnection = dbConnection;
         }
 
+        public Task<LoginResponse> ValidateEmployeeLogin(LoginRequest loginRequest)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Employee>> GetActiveEmployeesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Employee>> GetAllActiveEmployeesAsync()
         {
             try
@@ -317,6 +327,8 @@ namespace united_movers_api.Repositories.Implementations
             }
         }
 
+ 
+
         private void AddParameter(IDbCommand command, string parameterName, object value, DbType dbType)
         {
             IDataParameter parameter = command.CreateParameter();
@@ -324,6 +336,11 @@ namespace united_movers_api.Repositories.Implementations
             parameter.Value = value ?? DBNull.Value;
             parameter.DbType = dbType;
             command.Parameters.Add(parameter);
+        }
+
+        public Task<CreateEmployeeResponse> ValidateAndCreateEmployee(Employee employee)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -50,6 +50,15 @@ namespace united_movers_api.Controllers
             return Ok(new { Message = "Password changed successfully." });
         }
 
+        // POST: api/Auth/ChangePassword
+        [HttpPost("ResetPassword")]
+        public IActionResult ResetPassword([FromBody] ChangePasswordRequest request)
+        {
+
+            return Ok(new { Message = "Password changed successfully." });
+        }
+
+
 
         // POST: api/Auth/ForgotPassword
         [HttpPost("ForgotPassword")]
