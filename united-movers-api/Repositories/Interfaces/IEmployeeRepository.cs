@@ -5,8 +5,6 @@ namespace united_movers_api.Repositories.Interfaces
 {
     public interface IEmployeeRepository
     {
-        Task<LoginResponse> ValidateEmployeeLogin(LoginRequest loginRequest);
-
         Task<IEnumerable<Employee>> GetAllActiveEmployeesAsync();
 
         Task<Employee> GetEmployeeByIdAsync(int employeeId);
@@ -14,6 +12,5 @@ namespace united_movers_api.Repositories.Interfaces
         Task<int> InsertEmployeeAsync(Employee employee);
 
         Task<bool> UpdateEmployeeAsync(Employee employee);
-        Task<CreateEmployeeResponse> ValidateAndCreateEmployee(Employee employee);
     }
 }

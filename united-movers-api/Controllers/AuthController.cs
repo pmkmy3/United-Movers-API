@@ -46,26 +46,30 @@ namespace united_movers_api.Controllers
         [HttpPost("ChangePassword")]
         public IActionResult ChangePassword([FromBody] ChangePasswordRequest request)
         {
-            
-            return Ok(new { Message = "Password changed successfully." });
+            var response = _authService.ChangePassword(request);
+            if (response)
+            {
+                return Ok(new { HasPasswordChanged = true, Message = "Password changed successfully." });
+            }
+            else
+            {
+                return BadRequest(new { HasPasswordChanged = false, Message = "Password change unsuccessful." });
+            }
         }
-
-        // POST: api/Auth/ChangePassword
-        [HttpPost("ResetPassword")]
-        public IActionResult ResetPassword([FromBody] ChangePasswordRequest request)
-        {
-
-            return Ok(new { Message = "Password changed successfully." });
-        }
-
-
 
         // POST: api/Auth/ForgotPassword
         [HttpPost("ForgotPassword")]
         public IActionResult ForgotPassword([FromBody] ChangePasswordRequest request)
         {
-            // Simulate sending an email (Replace with real email logic)
-            return Ok(new { Message = "Password reset link has been sent to your email." });
+            var response = _authService.ForgotPassword(request);
+            if (response)
+            {
+                return Ok(new { HasPasswordChanged = true, Message = "Password reset was done successfully." });
+            }
+            else
+            {
+                return BadRequest(new { HasPasswordChanged = false, Message = "Password reset was unsuccessful." });
+            }
         }
 
     }

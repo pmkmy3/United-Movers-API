@@ -1,11 +1,6 @@
-﻿using united_movers_api.Services;
-using Isopoh.Cryptography.Argon2;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using Isopoh.Cryptography.Argon2;
+using System.Globalization;
 using united_movers_api.Models;
-using System.Data;
 using united_movers_api.Repositories;
 
 namespace united_movers_api.Services
@@ -22,11 +17,22 @@ namespace united_movers_api.Services
 
         public LoginResponse Login(LoginRequest request)
         {
-            this._authRepository.Authenticate(request);
-            return new LoginResponse();
-            
+            request.Password = Argon2.Hash(request.Password);
+            return this._authRepository.Authenticate(request);
         }
 
+        public bool ChangePassword(ChangePasswordRequest request)
+        {
+            request.NewPassword = Argon2.Hash(request.NewPassword);
+            request.OldPassword = Argon2.Hash(request.OldPassword);
 
+            return this._authRepository.ChangePassword(request);
+        }
+
+        public bool ForgotPassword(ChangePasswordRequest request)
+        {
+            request.NewPassword = Argon2.Hash(request.NewPassword);
+            return this._authRepository.ForgotPassword(request);
+        }
     }
 }

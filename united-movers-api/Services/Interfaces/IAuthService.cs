@@ -6,5 +6,8 @@ namespace united_movers_api.Services
     {
         LoginResponse Login(LoginRequest request);
 
+        bool ChangePassword(ChangePasswordRequest request);
+
+        bool ForgotPassword(ChangePasswordRequest request);
     }
 }

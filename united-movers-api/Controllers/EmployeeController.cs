@@ -18,25 +18,6 @@ namespace united_movers_api.Controllers
             _employeeService = employeeService;
         }
 
-
-        [HttpGet("validate")]
-        public async Task<LoginResponse> ValidateEmployeeLogin([FromBody] LoginRequest loginRequest )
-        {
-            var loginResponse = await _employeeService.ValidateEmployeeLogin(loginRequest);
-             
-            return loginResponse;
-        }
-
-        [HttpGet("logout/employeeID")]
-        public async Task<IActionResult> Logout(int employeeID)
-        {
-            throw new NotImplementedException();
-            //var response = await _employeeService.Logout();
-            return Ok();
-        }
-
-
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

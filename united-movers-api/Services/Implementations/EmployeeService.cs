@@ -15,16 +15,6 @@ namespace united_movers_api.Services.Implementations
             _employeeRepository = employeeRepository;
         }
 
-        public async Task<LoginResponse> ValidateEmployeeLogin(LoginRequest loginRequest)
-        {
-            return await _employeeRepository.ValidateEmployeeLogin(loginRequest);
-        }
-
-        public async Task<bool> Logout(int employeeID)
-        {
-            //TODO: Implement Logout
-            throw new NotImplementedException();
-        }
 
         public async Task<IEnumerable<Employee>> GetActiveEmployeesAsync()
         {
@@ -46,9 +36,5 @@ namespace united_movers_api.Services.Implementations
             return await _employeeRepository.UpdateEmployeeAsync(employee);
         }
 
-        public async Task<CreateEmployeeResponse> ValidateAndCreateEmployee(Employee employee)
-        {
-            return await _employeeRepository.ValidateAndCreateEmployee(employee);
-        }
     }
 }

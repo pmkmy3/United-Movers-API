@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using united_movers_api.Common;
 using united_movers_api.Models;
 using united_movers_api.Repositories.Interfaces;
 
@@ -12,16 +13,6 @@ namespace united_movers_api.Repositories.Implementations
         public EmployeeRepository(IDbConnection dbConnection)
         {
             this._dbConnection = dbConnection;
-        }
-
-        public Task<LoginResponse> ValidateEmployeeLogin(LoginRequest loginRequest)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Employee>> GetActiveEmployeesAsync()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Employee>> GetAllActiveEmployeesAsync()
@@ -85,7 +76,7 @@ namespace united_movers_api.Repositories.Implementations
                                     InsurerName = reader["InsurerName"]?.ToString(),
                                     InsuranceStartDate = reader["InsuranceStartDate"] != null ? Convert.ToDateTime(reader["InsuranceStartDate"]) : null,
                                     InsuranceEndDate = reader["InsuranceEndDate"] != null ? Convert.ToDateTime(reader["InsuranceEndDate"]) : null,
-                                    IsBackgroundVerificationCompleted = reader["IsBackgroundVerficationCompleted"] != null ?  Convert.ToBoolean(reader["IsBackgroundVerficationCompleted"]) : false,
+                                    IsBackgroundVerificationCompleted = reader["IsBackgroundVerficationCompleted"] != null ? Convert.ToBoolean(reader["IsBackgroundVerficationCompleted"]) : false,
                                     IsPhysicalVerificationCompleted = reader["IsPhysicalVerificationCompleted"] != null ? Convert.ToBoolean(reader["IsPhysicalVerificationCompleted"]) : false,
                                     BackgroundVerificationAgencyName = reader["BackgroundVerificationAgencyName"]?.ToString()
                                 });
@@ -122,7 +113,7 @@ namespace united_movers_api.Repositories.Implementations
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[GetEmployeeByID]";
-                    AddParameter(command, "@EmployeeID", employeeId, DbType.Int32);
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmployeeID", employeeId, DbType.Int32));
 
                     _dbConnection.Open();
                     using (IDataReader reader = await Task.Run(() => command.ExecuteReader()))
@@ -202,45 +193,45 @@ namespace united_movers_api.Repositories.Implementations
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[SaveEmployeeInformation]";
-
-                    AddParameter(command, "@FirstName", employee.FirstName, DbType.String);
-                    AddParameter(command, "@LastName", employee.LastName, DbType.String);
-                    AddParameter(command, "@BloodGroup", employee.BloodGroup, DbType.String);
-                    AddParameter(command, "@Gender", employee.Gender, DbType.String);
-                    AddParameter(command, "@PersonalEmailID", employee.PersonalEmailID, DbType.String);
-                    AddParameter(command, "@ContactNumber", employee.ContactNumber, DbType.String);
-                    AddParameter(command, "@AlternativeContactNumber", employee.AlternativeContactNumber, DbType.String);
-                    AddParameter(command, "@EmergencyContactNumber", employee.EmergencyContactNumber, DbType.String);
-                    AddParameter(command, "@AadhaarNumber", employee.AadhaarNumber, DbType.String);
-                    AddParameter(command, "@PanNumber", employee.PanNumber, DbType.String);
-                    AddParameter(command, "@AccountNumber", employee.AccountNumber, DbType.String);
-                    AddParameter(command, "@BankName", employee.BankName, DbType.String);
-                    AddParameter(command, "@IFSCCode", employee.IFSCCode, DbType.String);
-                    AddParameter(command, "@DateOfBirth", employee.DateOfBirth != null ? employee.DateOfBirth.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@CreatedDate", employee.CreatedDate != null ? employee.CreatedDate.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@ModifiedDate", employee.ModifiedDate != null ? employee.ModifiedDate.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@CreatedByID", employee.CreatedByID, DbType.Int32);
-                    AddParameter(command, "@ModifiedByID", employee.ModifiedByID, DbType.Int32);
-                    AddParameter(command, "@AlternativeEmail", employee.AlternativeEmail, DbType.String);
-                    AddParameter(command, "@EmergencyContactName", employee.EmergencyContactName, DbType.String);
-                    AddParameter(command, "@EmergencyContactRelation", employee.EmergencyContactRelation, DbType.String);
-                    AddParameter(command, "@EmergencyContactPersonID", employee.EmergencyContactPersonID, DbType.Int32);
-                    AddParameter(command, "@AddressLine1", employee.AddressLine1, DbType.String);
-                    AddParameter(command, "@AddressLine2", employee.AddressLine2, DbType.String);
-                    AddParameter(command, "@State", employee.State, DbType.String);
-                    AddParameter(command, "@City", employee.City, DbType.String);
-                    AddParameter(command, "@Zip", employee.Zip, DbType.String);
-                    AddParameter(command, "@Landmark", employee.Landmark, DbType.String);
-                    AddParameter(command, "@HighestDegreeEarned", employee.HighestDegreeEarned, DbType.String);
-                    AddParameter(command, "@PreviousOrgName", employee.PreviousOrgName, DbType.String);
-                    AddParameter(command, "@UANNumber", employee.UANNumber, DbType.String);
-                    AddParameter(command, "@InsurancePolicyNumber", employee.InsurancePolicyNumber, DbType.String);
-                    AddParameter(command, "@InsurerName", employee.InsurerName, DbType.String);
-                    AddParameter(command, "@InsuranceStartDate", employee.InsuranceStartDate != null ? employee.InsuranceStartDate.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@InsuranceEndDate", employee.InsuranceEndDate != null ? employee.InsuranceEndDate.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@IsBackgroundVerificationCompleted", employee.IsBackgroundVerificationCompleted, DbType.Boolean);
-                    AddParameter(command, "@IsPhysicalVerificationCompleted", employee.IsPhysicalVerificationCompleted, DbType.Boolean);
-                    AddParameter(command, "@BackgroundVerificationAgencyName", employee.BackgroundVerificationAgencyName, DbType.String);
+                    command.Parameters.Add(Utils.AddParameter(command, "@FirstName", employee.FirstName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@FirstName", employee.FirstName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@LastName", employee.LastName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@BloodGroup", employee.BloodGroup, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@Gender", employee.Gender, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@PersonalEmailID", employee.PersonalEmailID, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@ContactNumber", employee.ContactNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AlternativeContactNumber", employee.AlternativeContactNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmergencyContactNumber", employee.EmergencyContactNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AadhaarNumber", employee.AadhaarNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@PanNumber", employee.PanNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AccountNumber", employee.AccountNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@BankName", employee.BankName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@IFSCCode", employee.IFSCCode, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@DateOfBirth", employee.DateOfBirth != null ? employee.DateOfBirth.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@CreatedDate", employee.CreatedDate != null ? employee.CreatedDate.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@ModifiedDate", employee.ModifiedDate != null ? employee.ModifiedDate.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@CreatedByID", employee.CreatedByID, DbType.Int32));
+                    command.Parameters.Add(Utils.AddParameter(command, "@ModifiedByID", employee.ModifiedByID, DbType.Int32));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AlternativeEmail", employee.AlternativeEmail, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmergencyContactName", employee.EmergencyContactName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmergencyContactRelation", employee.EmergencyContactRelation, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmergencyContactPersonID", employee.EmergencyContactPersonID, DbType.Int32));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AddressLine1", employee.AddressLine1, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AddressLine2", employee.AddressLine2, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@State", employee.State, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@City", employee.City, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@Zip", employee.Zip, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@Landmark", employee.Landmark, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@HighestDegreeEarned", employee.HighestDegreeEarned, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@PreviousOrgName", employee.PreviousOrgName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@UANNumber", employee.UANNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@InsurancePolicyNumber", employee.InsurancePolicyNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@InsurerName", employee.InsurerName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@InsuranceStartDate", employee.InsuranceStartDate != null ? employee.InsuranceStartDate.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@InsuranceEndDate", employee.InsuranceEndDate != null ? employee.InsuranceEndDate.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@IsBackgroundVerificationCompleted", employee.IsBackgroundVerificationCompleted, DbType.Boolean));
+                    command.Parameters.Add(Utils.AddParameter(command, "@IsPhysicalVerificationCompleted", employee.IsPhysicalVerificationCompleted, DbType.Boolean));
+                    command.Parameters.Add(Utils.AddParameter(command, "@BackgroundVerificationAgencyName", employee.BackgroundVerificationAgencyName, DbType.String));
 
                     _dbConnection.Open();
                     var result = await Task.Run(() => command.ExecuteScalar());
@@ -269,45 +260,45 @@ namespace united_movers_api.Repositories.Implementations
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[UpdateEmployee]";
 
-                    AddParameter(command, "@EmployeeID", employee.EmployeeID, DbType.Int32);
-                    AddParameter(command, "@FirstName", employee.FirstName, DbType.String);
-                    AddParameter(command, "@LastName", employee.LastName, DbType.String);
-                    AddParameter(command, "@BloodGroup", employee.BloodGroup, DbType.String);
-                    AddParameter(command, "@Gender", employee.Gender, DbType.String);
-                    AddParameter(command, "@PersonalEmailID", employee.PersonalEmailID, DbType.String);
-                    AddParameter(command, "@ContactNumber", employee.ContactNumber, DbType.String);
-                    AddParameter(command, "@AlternativeContactNumber", employee.AlternativeContactNumber, DbType.String);
-                    AddParameter(command, "@EmergencyContactNumber", employee.EmergencyContactNumber, DbType.String);
-                    AddParameter(command, "@AadhaarNumber", employee.AadhaarNumber, DbType.String);
-                    AddParameter(command, "@PanNumber", employee.PanNumber, DbType.String);
-                    AddParameter(command, "@AccountNumber", employee.AccountNumber, DbType.String);
-                    AddParameter(command, "@BankName", employee.BankName, DbType.String);
-                    AddParameter(command, "@IFSCCode", employee.IFSCCode, DbType.String);
-                    AddParameter(command, "@DateOfBirth", employee.DateOfBirth != null ? employee.DateOfBirth.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@CreatedDate", employee.CreatedDate != null ? employee.CreatedDate.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@ModifiedDate", employee.ModifiedDate != null ? employee.ModifiedDate.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@CreatedByID", employee.CreatedByID, DbType.Int32);
-                    AddParameter(command, "@ModifiedByID", employee.ModifiedByID, DbType.Int32);
-                    AddParameter(command, "@AlternativeEmail", employee.AlternativeEmail, DbType.String);
-                    AddParameter(command, "@EmergencyContactName", employee.EmergencyContactName, DbType.String);
-                    AddParameter(command, "@EmergencyContactRelation", employee.EmergencyContactRelation, DbType.String);
-                    AddParameter(command, "@EmergencyContactPersonID", employee.EmergencyContactPersonID, DbType.Int32);
-                    AddParameter(command, "@AddressLine1", employee.AddressLine1, DbType.String);
-                    AddParameter(command, "@AddressLine2", employee.AddressLine2, DbType.String);
-                    AddParameter(command, "@State", employee.State, DbType.String);
-                    AddParameter(command, "@City", employee.City, DbType.String);
-                    AddParameter(command, "@Zip", employee.Zip, DbType.String);
-                    AddParameter(command, "@Landmark", employee.Landmark, DbType.String);
-                    AddParameter(command, "@HighestDegreeEarned", employee.HighestDegreeEarned, DbType.String);
-                    AddParameter(command, "@PreviousOrgName", employee.PreviousOrgName, DbType.String);
-                    AddParameter(command, "@UANNumber", employee.UANNumber, DbType.String);
-                    AddParameter(command, "@InsurancePolicyNumber", employee.InsurancePolicyNumber, DbType.String);
-                    AddParameter(command, "@InsurerName", employee.InsurerName, DbType.String);
-                    AddParameter(command, "@InsuranceStartDate", employee.InsuranceStartDate != null ? employee.InsuranceStartDate.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@InsuranceEndDate", employee.InsuranceEndDate != null ? employee.InsuranceEndDate.Value : DBNull.Value, DbType.DateTime);
-                    AddParameter(command, "@IsBackgroundVerificationCompleted", employee.IsBackgroundVerificationCompleted, DbType.Boolean);
-                    AddParameter(command, "@IsPhysicalVerificationCompleted", employee.IsPhysicalVerificationCompleted, DbType.Boolean);
-                    AddParameter(command, "@BackgroundVerificationAgencyName", employee.BackgroundVerificationAgencyName, DbType.String);
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmployeeID", employee.EmployeeID, DbType.Int32));
+                    command.Parameters.Add(Utils.AddParameter(command, "@FirstName", employee.FirstName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@LastName", employee.LastName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@BloodGroup", employee.BloodGroup, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@Gender", employee.Gender, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@PersonalEmailID", employee.PersonalEmailID, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@ContactNumber", employee.ContactNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AlternativeContactNumber", employee.AlternativeContactNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmergencyContactNumber", employee.EmergencyContactNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AadhaarNumber", employee.AadhaarNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@PanNumber", employee.PanNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AccountNumber", employee.AccountNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@BankName", employee.BankName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@IFSCCode", employee.IFSCCode, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@DateOfBirth", employee.DateOfBirth != null ? employee.DateOfBirth.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@CreatedDate", employee.CreatedDate != null ? employee.CreatedDate.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@ModifiedDate", employee.ModifiedDate != null ? employee.ModifiedDate.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@CreatedByID", employee.CreatedByID, DbType.Int32));
+                    command.Parameters.Add(Utils.AddParameter(command, "@ModifiedByID", employee.ModifiedByID, DbType.Int32));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AlternativeEmail", employee.AlternativeEmail, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmergencyContactName", employee.EmergencyContactName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmergencyContactRelation", employee.EmergencyContactRelation, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@EmergencyContactPersonID", employee.EmergencyContactPersonID, DbType.Int32));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AddressLine1", employee.AddressLine1, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@AddressLine2", employee.AddressLine2, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@State", employee.State, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@City", employee.City, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@Zip", employee.Zip, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@Landmark", employee.Landmark, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@HighestDegreeEarned", employee.HighestDegreeEarned, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@PreviousOrgName", employee.PreviousOrgName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@UANNumber", employee.UANNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@InsurancePolicyNumber", employee.InsurancePolicyNumber, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@InsurerName", employee.InsurerName, DbType.String));
+                    command.Parameters.Add(Utils.AddParameter(command, "@InsuranceStartDate", employee.InsuranceStartDate != null ? employee.InsuranceStartDate.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@InsuranceEndDate", employee.InsuranceEndDate != null ? employee.InsuranceEndDate.Value : DBNull.Value, DbType.DateTime));
+                    command.Parameters.Add(Utils.AddParameter(command, "@IsBackgroundVerificationCompleted", employee.IsBackgroundVerificationCompleted, DbType.Boolean));
+                    command.Parameters.Add(Utils.AddParameter(command, "@IsPhysicalVerificationCompleted", employee.IsPhysicalVerificationCompleted, DbType.Boolean));
+                    command.Parameters.Add(Utils.AddParameter(command, "@BackgroundVerificationAgencyName", employee.BackgroundVerificationAgencyName, DbType.String));
 
                     _dbConnection.Open();
                     await Task.Run(() => command.ExecuteNonQuery());
@@ -327,20 +318,6 @@ namespace united_movers_api.Repositories.Implementations
             }
         }
 
- 
 
-        private void AddParameter(IDbCommand command, string parameterName, object value, DbType dbType)
-        {
-            IDataParameter parameter = command.CreateParameter();
-            parameter.ParameterName = parameterName;
-            parameter.Value = value ?? DBNull.Value;
-            parameter.DbType = dbType;
-            command.Parameters.Add(parameter);
-        }
-
-        public Task<CreateEmployeeResponse> ValidateAndCreateEmployee(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
